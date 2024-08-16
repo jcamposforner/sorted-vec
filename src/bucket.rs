@@ -26,16 +26,7 @@ impl<T: PartialOrd + Ord> Bucket<T> {
     pub(crate) fn split(&mut self) -> Bucket<T> {
         let curr_len = self.data.len();
         let at = curr_len / 2;
-
-        let other_len = self.data.len() - at;
-        let mut other = Vec::with_capacity(curr_len);
-
-        unsafe {
-            self.data.set_len(at);
-            other.set_len(other_len);
-
-            std::ptr::copy_nonoverlapping(self.data.as_ptr().add(at), other.as_mut_ptr(), other.len());
-        }
+        let other = self.data.split_off(at);
 
         Bucket { data: other }
     }
