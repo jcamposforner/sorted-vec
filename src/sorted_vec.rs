@@ -142,6 +142,7 @@ impl<T: PartialOrd + Ord> SortedVec<T> {
         }
     }
 
+    #[inline]
     fn find_bucket_index(&self, item: &T) -> usize {
         match self
             .buckets
