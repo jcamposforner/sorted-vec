@@ -18,7 +18,7 @@ impl Deref for MaxBucketCapacity {
 impl MaxBucketCapacity {
     pub fn new(size: usize) -> Self {
         if size < 1 {
-            panic!("MaxBucketSize must be greater than 0");
+            panic!("MaxBucketCapacity must be greater than 0");
         }
 
         MaxBucketCapacity(size)
@@ -124,7 +124,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "MaxBucketSize must be greater than 0")]
+    #[should_panic(expected = "MaxBucketCapacity must be greater than 0")]
     fn max_bucket_capacity_new_with_zero_size() {
         MaxBucketCapacity::new(0);
     }
