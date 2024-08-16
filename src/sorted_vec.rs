@@ -10,6 +10,31 @@ pub struct FindResult {
     item_idx: usize,
 }
 
+impl FindResult {
+    pub fn new(bucket_idx: usize, item_idx: usize) -> Self {
+        FindResult {
+            bucket_idx,
+            item_idx,
+        }
+    }
+
+    pub fn bucket_idx(&self) -> usize {
+        self.bucket_idx
+    }
+
+    pub fn item_idx(&self) -> usize {
+        self.item_idx
+    }
+}
+
+impl Deref for FindResult {
+    type Target = usize;
+
+    fn deref(&self) -> &Self::Target {
+        &self.item_idx
+    }
+}
+
 #[derive(Debug, Copy, Clone)]
 pub struct MaxBucketCapacity(usize);
 
@@ -150,12 +175,7 @@ impl<T: PartialOrd + Ord> SortedVec<T> {
         let bucket = &self.buckets[bucket_idx];
 
         match bucket.data.binary_search(item) {
-            Ok(i) => Some(
-                FindResult {
-                    bucket_idx,
-                    item_idx: i,
-                }
-            ),
+            Ok(i) => Some(FindResult::new(bucket_idx, i)),
             Err(_) => None,
         }
     }
