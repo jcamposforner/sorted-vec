@@ -3,6 +3,7 @@ use std::ops::Deref;
 
 use crate::AddResult;
 use crate::bucket::Bucket;
+use crate::iter::SortedVecIter;
 
 #[derive(Debug, Copy, Clone)]
 pub struct MaxBucketCapacity(usize);
@@ -50,7 +51,7 @@ impl BucketConfiguration {
 pub struct SortedVec<T: PartialOrd + Ord> {
     buckets: Vec<Bucket<T>>,
     configuration: BucketConfiguration,
-    size: usize
+    pub(crate) size: usize
 }
 
 impl<T: PartialOrd + Ord> SortedVec<T> {
@@ -98,6 +99,10 @@ impl<T: PartialOrd + Ord> SortedVec<T> {
                 min(idx, self.buckets.len() - 1)
             },
         }
+    }
+
+    pub fn iter(&self) -> SortedVecIter<T> {
+        SortedVecIter::new(self)
     }
 
     pub fn at(&self, mut idx: usize) -> Option<&T> {
