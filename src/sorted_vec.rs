@@ -70,9 +70,23 @@ pub struct BucketConfiguration {
 
 impl BucketConfiguration {
     pub fn new(max_bucket_capacity: MaxBucketCapacity, initial_set_capacity: usize) -> Self {
-        BucketConfiguration {
+        Self {
             max_bucket_capacity,
             initial_set_capacity,
+        }
+    }
+
+    pub fn with_max_bucket_capacity(max_bucket_capacity: MaxBucketCapacity) -> Self {
+        Self {
+            max_bucket_capacity,
+            ..Default::default()
+        }
+    }
+
+    pub fn with_initial_set_capacity(initial_set_capacity: usize) -> Self {
+        Self {
+            initial_set_capacity,
+            ..Default::default()
         }
     }
 }

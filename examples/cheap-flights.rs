@@ -1,5 +1,5 @@
 use std::cmp::Ordering;
-use sorted_vec::sorted_vec::{BucketConfiguration, SortedVec};
+use sorted_vec::sorted_vec::{BucketConfiguration, MaxBucketCapacity, SortedVec};
 
 #[derive(Debug)]
 struct Flight {
@@ -49,7 +49,7 @@ fn main() {
         Flight::new(4, "JFK".to_string(), "LAX".to_string(), 400.0),
     ];
 
-    let sorted_vec = SortedVec::from_vec(flights, BucketConfiguration::default());
+    let sorted_vec = SortedVec::from_vec(flights, BucketConfiguration::with_max_bucket_capacity(MaxBucketCapacity::new(2)));
 
     println!("{:?}", sorted_vec.first());
     println!("{:?}", sorted_vec.last());
