@@ -5,7 +5,7 @@ use crate::AddResult;
 use crate::bucket::Bucket;
 use crate::iter::SortedVecIter;
 
-struct FindResult {
+pub struct FindResult {
     bucket_idx: usize,
     item_idx: usize,
 }
@@ -249,5 +249,28 @@ mod tests {
         let config = BucketConfiguration::new(MaxBucketCapacity::new(10), 5);
         let sorted_vec: SortedVec<i32> = SortedVec::new(config);
         assert_eq!(sorted_vec.at(0), None);
+    }
+
+    #[test]
+    fn sorted_vec_remove_single_element() {
+        let config = BucketConfiguration::new(MaxBucketCapacity::new(10), 5);
+        let mut sorted_vec: SortedVec<i32> = SortedVec::new(config);
+        sorted_vec.insert(5);
+        sorted_vec.remove(&5);
+        assert_eq!(sorted_vec.size, 0);
+        assert_eq!(sorted_vec.at(0), None);
+    }
+
+    #[test]
+    fn sorted_vec_remove_multiple_elements() {
+        let config = BucketConfiguration::new(MaxBucketCapacity::new(10), 5);
+        let mut sorted_vec: SortedVec<i32> = SortedVec::new(config);
+        sorted_vec.insert(5);
+        sorted_vec.insert(3);
+        sorted_vec.insert(8);
+        sorted_vec.remove(&3);
+        sorted_vec.remove(&8);
+        assert_eq!(sorted_vec.size, 1);
+        assert_eq!(sorted_vec.at(0), Some(&5));
     }
 }
