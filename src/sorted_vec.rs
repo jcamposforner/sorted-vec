@@ -308,7 +308,6 @@ mod tests {
         let mut sorted_vec: SortedVec<i32> = SortedVec::new(config);
         sorted_vec.insert(5);
         sorted_vec.insert(3);
-        println!("{:?}", sorted_vec);
 
         assert_eq!(sorted_vec.buckets.len(), 2);
         assert_eq!(sorted_vec.size, 2);
