@@ -214,6 +214,25 @@ impl<T: PartialOrd + Ord> SortedVec<T> {
     }
 }
 
+impl<T: PartialOrd + Ord> FromIterator<T> for SortedVec<T> {
+    fn from_iter<Iter: IntoIterator<Item = T>>(iter: Iter) -> Self {
+        let mut result = SortedVec::new(Default::default());
+        for item in iter {
+            result.insert(item);
+        }
+
+        result
+    }
+}
+
+impl<T: PartialOrd + Ord> Extend<T> for SortedVec<T> {
+    fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
+        for item in iter {
+            self.insert(item);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::sorted_vec::{BucketConfiguration, MaxBucketCapacity, SortedVec};
