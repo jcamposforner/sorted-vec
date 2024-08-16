@@ -1,4 +1,3 @@
-#[clippy::all]
 mod bucket;
 pub mod sorted_vec;
 
