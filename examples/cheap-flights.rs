@@ -41,7 +41,7 @@ impl PartialOrd for Flight {
 }
 
 fn main() {
-    let mut flights = vec![
+    let flights = vec![
         Flight::new(5, "LAX".to_string(), "JFK".to_string(), 500.0),
         Flight::new(2, "JFK".to_string(), "LAX".to_string(), 200.0),
         Flight::new(3, "LAX".to_string(), "JFK".to_string(), 300.0),
