@@ -2,7 +2,7 @@ use std::cmp::Ordering;
 use crate::AddResult;
 
 #[derive(Default, Debug)]
-pub(crate) struct Bucket<T: PartialOrd + Ord> {
+pub(crate) struct Bucket<T: PartialOrd> {
     pub(crate) data: Vec<T>,
 }
 

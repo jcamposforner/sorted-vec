@@ -147,6 +147,16 @@ impl<T: PartialOrd + Ord> SortedVec<T> {
         None
     }
 
+    pub fn last(&self) -> Option<&T> {
+        let last_bucket = self.buckets.last()?;
+        last_bucket.data.last()
+    }
+
+    pub fn first(&self) -> Option<&T> {
+        let first_bucket = self.buckets.first()?;
+        first_bucket.data.first()
+    }
+
     pub fn remove(&mut self, item: &T) {
         if let Some(FindResult { bucket_idx, item_idx }) = self.find_index(item) {
             let bucket = &mut self.buckets[bucket_idx];
