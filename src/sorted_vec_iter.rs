@@ -14,6 +14,12 @@ impl<'a, T: PartialOrd + Ord> SortedVecIter<'a, T> {
     }
 }
 
+impl<'a, T: PartialOrd + Ord> ExactSizeIterator for SortedVecIter<'a, T> {
+    fn len(&self) -> usize {
+        self.sorted_vec.size
+    }
+}
+
 impl<'a, T: PartialOrd + Ord> Iterator for SortedVecIter<'a, T> {
     type Item = &'a T;
 

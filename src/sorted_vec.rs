@@ -5,6 +5,11 @@ use crate::AddResult;
 use crate::bucket::Bucket;
 use crate::iter::SortedVecIter;
 
+struct FindResult {
+    bucket_idx: usize,
+    item_idx: usize,
+}
+
 #[derive(Debug, Copy, Clone)]
 pub struct MaxBucketCapacity(usize);
 
@@ -49,7 +54,7 @@ impl BucketConfiguration {
 
 #[derive(Default, Debug)]
 pub struct SortedVec<T: PartialOrd + Ord> {
-    buckets: Vec<Bucket<T>>,
+    pub(crate) buckets: Vec<Bucket<T>>,
     configuration: BucketConfiguration,
     pub(crate) size: usize
 }
@@ -115,6 +120,44 @@ impl<T: PartialOrd + Ord> SortedVec<T> {
         }
 
         None
+    }
+
+    pub fn remove(&mut self, item: &T) {
+        if let Some(FindResult { bucket_idx, item_idx }) = self.find_index(item) {
+            let bucket = &mut self.buckets[bucket_idx];
+            bucket.data.remove(item_idx);
+            if bucket.data.is_empty() {
+                self.buckets.remove(bucket_idx);
+            }
+
+            self.size -= 1;
+        };
+    }
+
+    pub fn slice(&self, start: usize, end: usize) -> Vec<&T> {
+        let mut result = Vec::new();
+        for i in start..end {
+            if let Some(item) = self.at(i) {
+                result.push(item);
+            }
+        }
+
+        result
+    }
+
+    pub fn find_index(&self, item: &T) -> Option<FindResult> {
+        let bucket_idx = self.find_bucket_index(item);
+        let bucket = &self.buckets[bucket_idx];
+
+        match bucket.data.binary_search(item) {
+            Ok(i) => Some(
+                FindResult {
+                    bucket_idx,
+                    item_idx: i,
+                }
+            ),
+            Err(_) => None,
+        }
     }
 }
 
