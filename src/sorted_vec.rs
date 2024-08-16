@@ -101,6 +101,15 @@ impl<T: PartialOrd + Ord> SortedVec<T> {
         }
     }
 
+    pub fn from_vec(data: Vec<T>, configuration: BucketConfiguration) -> Self {
+        let mut result = Self::new(configuration);
+        for item in data {
+            result.insert(item);
+        }
+
+        result
+    }
+
     pub fn insert(&mut self, item: T) {
         let idx = self.find_bucket_index(&item);
         let bucket = &mut self.buckets[idx];

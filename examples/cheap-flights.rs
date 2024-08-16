@@ -49,10 +49,7 @@ fn main() {
         Flight::new(4, "JFK".to_string(), "LAX".to_string(), 400.0),
     ];
 
-    let mut sorted_vec = SortedVec::new(BucketConfiguration::default());
-    for flight in flights.into_iter() {
-        sorted_vec.insert(flight);
-    }
+    let sorted_vec = SortedVec::from_vec(flights, BucketConfiguration::default());
 
     println!("{:?}", sorted_vec.first());
     println!("{:?}", sorted_vec.last());
